@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
+	"fmt"
 
 	_ "github.com/microsoft/go-mssqldb"
 )
@@ -30,11 +32,21 @@ func enableCors(w *http.ResponseWriter) {
 	}
 
 func main() {
-	
+
 
 	//initializeDatabase()
 
 	http.HandleFunc("/predict", predictionHandler)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(GetPort(), nil))
 
+}
+
+func GetPort() string {
+	var port = os.Getenv("PORT")
+	// Set a default port if there is nothing in the environment
+	if port == "" {
+		port = "8080"
+		fmt.Println("INFO: No PORT environment variable detected, defaulting to " + port)
+	}
+	return ":" + port
 }
