@@ -28,7 +28,7 @@ func writeErrorResponse(w http.ResponseWriter, code int, err error) {
 }
 
 func enableCors(w *http.ResponseWriter) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Origin", "localhost:4200")
 	}
 
 func main() {
