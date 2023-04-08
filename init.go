@@ -9,6 +9,7 @@ import (
 	"fmt"
 
 	_ "github.com/microsoft/go-mssqldb"
+	"github.com/rs/cors"
 )
 
 type ErrorResponse struct {
@@ -27,17 +28,17 @@ func writeErrorResponse(w http.ResponseWriter, code int, err error) {
 	w.Write(responseBytes)
 }
 
-func enableCors(w *http.ResponseWriter) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "localhost:4200")
-	}
 
 func main() {
+	mux:= http.NewServeMux()
 
 
 	//initializeDatabase()
 
-	http.HandleFunc("/predict", predictionHandler)
-	log.Fatal(http.ListenAndServe(GetPort(), nil))
+	mux.HandleFunc("/predict", predictionHandler)
+	handler := cors.Default().Handler(mux)
+
+	log.Fatal(http.ListenAndServe(GetPort(), handler))
 
 }
 

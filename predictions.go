@@ -28,7 +28,6 @@ const (
 )
 
 func predictionHandler(w http.ResponseWriter, r *http.Request) {
-	enableCors(&w)
 	if r.Method != http.MethodPost {
 		writeErrorResponse(w, http.StatusBadRequest, fmt.Errorf("invalid HTTP method"))
 		return
